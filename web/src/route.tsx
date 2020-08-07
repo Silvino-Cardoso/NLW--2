@@ -8,7 +8,6 @@ function Routes (){
     return (
         <BrowserRouter>
         
-            <button type='submit'></button>
             <Route path='/' component={Landing} exact/>
             <Route path='/study' component={TeacherList}/>
             <Route path='/give-classes' component={TeacherForm}/>

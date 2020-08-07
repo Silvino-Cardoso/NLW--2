@@ -3,7 +3,7 @@ import db from '../database/connection';
 import convertHourToMinutes from '../utils/convertHourToMinutes';
 
 
-interface schenduleItem {
+interface scheduleItem {
     week_day: number;
     from: string;
     to: string;
@@ -27,12 +27,12 @@ export default class ClassesController {
       
         const classes = await db('classes')
             .whereExists( function (){
-                this.select('class_schendule.*')
-                    .from('class_schendule')
-                    .whereRaw('`class_schendule`.`class_id` = `classes`.`id`')
-                    .whereRaw('`class_schendule`.`week_day`= ??',[Number(week_day)])
-                    .whereRaw('`class_schendule`.`from` <= ??', [timeInMinutes])
-                    .whereRaw('`class_schendule`.`to` > ??', [timeInMinutes])
+                this.select('class_schedule.*')
+                    .from('class_schedule')
+                    .whereRaw('`class_schedule`.`class_id` = `classes`.`id`')
+                    .whereRaw('`class_schedule`.`week_day`= ??',[Number(week_day)])
+                    .whereRaw('`class_schedule`.`from` <= ??', [timeInMinutes])
+                    .whereRaw('`class_schedule`.`to` > ??', [timeInMinutes])
 
             })
             .where('classes.subject', '=' , subject)
@@ -51,7 +51,7 @@ export default class ClassesController {
         bio,
         subject,
         cost,
-        schendule
+        schedule
     } = request.body;
     
     const trx = await db.transaction();
@@ -75,16 +75,16 @@ export default class ClassesController {
 
     const class_id = insertedClassesIds[0];
 
-    const classSchendule = schendule.map((schenduleItem:schenduleItem) =>{
+    const classSchedule = schedule.map((scheduleItem:scheduleItem) =>{
         return {
             class_id,
-            week_day: schenduleItem.week_day,
-            from: convertHourToMinutes(schenduleItem.from),
-            to: convertHourToMinutes(schenduleItem.to),
+            week_day: scheduleItem.week_day,
+            from: convertHourToMinutes(scheduleItem.from),
+            to: convertHourToMinutes(scheduleItem.to),
         };
     })
 
-    await trx('class_schendule').insert(classSchendule)  
+    await trx('class_schedule').insert(classSchedule)  
     
     await trx.commit();
     return response.status(201).send();
