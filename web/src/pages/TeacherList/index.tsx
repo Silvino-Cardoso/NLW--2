@@ -24,8 +24,10 @@ function TeacherList() {
                 week_day,
                 time
             }
+            
         }); 
         setTeachers(response.data)
+        
 
         
     }
