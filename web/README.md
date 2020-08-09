@@ -13,7 +13,7 @@
 
 <h3> Mobile: </h3>
 
-<img src="https://imgur.com/fozcPXB.png" alt="">
+<img src="https://imgur.com/fozcPXB.png" alt="">f
 
 <h3> Desktop: </h3>
 
